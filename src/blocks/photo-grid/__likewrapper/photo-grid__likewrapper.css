@@ -1,0 +1,4 @@
+.photo-grid__likewrapper {
+  display: flex;
+  flex-direction: column;
+}

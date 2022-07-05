@@ -1,0 +1,4 @@
+.pop-up__submit-button_pending:after {
+  content: ' .';
+  animation: dots .4s steps(5, end) infinite;
+}

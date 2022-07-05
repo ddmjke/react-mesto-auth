@@ -1,0 +1,30 @@
+.profile__eddit-button {
+  margin-left: 18px;
+  background: none;
+  color: inherit;
+  border: 1px #fff solid;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  width: 24px;
+  height: 24px;
+  background-image: url(../../../images/pencil.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: opacity .4s linear;
+  vertical-align: middle;
+  vertical-align: -webkit-baseline-middle;
+}
+
+.profile__eddit-button:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 768px) {
+  .profile__eddit-button {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+  }
+}

@@ -1,0 +1,4 @@
+.entry__submit-button_pending:after {
+  content: ' .';
+  animation: blackdots .4s steps(5, end) infinite;
+}

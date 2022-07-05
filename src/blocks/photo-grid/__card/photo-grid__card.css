@@ -1,0 +1,9 @@
+.photo-grid__card {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #fff;
+  overflow: hidden;
+  position: relative;
+}

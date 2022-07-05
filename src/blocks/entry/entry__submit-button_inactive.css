@@ -1,0 +1,11 @@
+.entry__submit-button_inactive {
+  color: rgba(0, 0, 0, .2);
+  background-color: #fff;
+  cursor: default;
+  border: 1px rgba(0, 0, 0, .2) solid;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

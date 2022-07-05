@@ -1,0 +1,19 @@
+.footer {
+  margin: 0 auto 36px;
+  max-width: calc(100% - 2*200px);
+}
+
+@media screen and (max-width:1280px) {
+  .footer {
+    --horizontal-margin: calc(19px + 181*(100% - 768px)/(1280 - 768));
+    max-width: calc(100% - 2*var(--horizontal-margin));
+  }
+}
+
+@media screen and (max-width:768px) {
+  .footer {
+    flex-direction: column;
+    max-width: calc(100% - 2*19px);
+    height: 100%;
+  }
+}

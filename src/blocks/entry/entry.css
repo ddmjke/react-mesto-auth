@@ -1,0 +1,7 @@
+.entry {
+  margin: 0 auto 0;
+  padding: 15px 0 0;
+  display: flex;
+  flex-direction: column;
+  max-width: 358px;
+}

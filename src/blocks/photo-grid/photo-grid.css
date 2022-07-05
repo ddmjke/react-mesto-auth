@@ -1,0 +1,25 @@
+.photo-grid {
+  box-sizing: border-box;
+  padding-top: 50px;
+  padding-bottom: 66px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  column-gap: 17px;
+  row-gap: 20px;
+  max-width: calc(100% - 2*200px);
+}
+
+@media screen and (max-width: 1280px) {
+  .photo-grid {
+    --horizontal-margin: calc(19px + 181*(100% - 768px)/(1280 - 768));
+    max-width: calc(100% - 2*var(--horizontal-margin));
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .photo-grid {
+    max-width: calc(100% - 2*19px);
+    padding: 36px 0 48px;
+  }  
+}

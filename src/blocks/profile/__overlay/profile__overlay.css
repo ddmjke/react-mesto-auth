@@ -1,0 +1,37 @@
+.profile__overlay {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, .8);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 100%;
+  z-index: 4;
+  display: none;
+}
+
+.profile__overlay::after {
+  content: '';
+  background: url(../../../images/pencil.svg) no-repeat center;
+  background-size: 26px;
+  position:absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 100%;
+  z-index: 1;
+}
+
+.profile__img-button:hover .profile__overlay{
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+  .profile__overlay {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    margin: 0 auto;
+  }
+}

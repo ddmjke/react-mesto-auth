@@ -1,0 +1,10 @@
+.entry__network-error {
+  font-size: 18px;
+  line-height: 15px;
+  font-weight: 400;
+  padding: 0;
+  color: #ff0000;
+
+  visibility: hidden;
+  display: inline-block;
+}
