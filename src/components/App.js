@@ -69,8 +69,18 @@ export default class App extends React.Component {
       .then(res => {
         localStorage.setItem('email', args.email);
         localStorage.setItem('token', res.token);
-        this.setState({loggedIn: true});
+        this.setState({
+          loggedIn: true,
+          email: args.email,
+          password: args.password,
+        });
       });
+    }
+    
+  handleLogout = () => {
+    localStorage.setItem('email', '');
+    localStorage.setItem('token', '');
+    this.setState({loggedIn: false, })
   }
 
   handleEditProfileClick = () => {
@@ -202,7 +212,7 @@ export default class App extends React.Component {
 
           <Route path="/" element={
             <>
-              {this.state.loggedIn && <Header loggedIn={this.state.loggedIn} email={localStorage.getItem('email')}/>}
+              {this.state.loggedIn && <Header loggedIn={this.state.loggedIn} email={localStorage.getItem('email')} onLogout={this.handleLogout}/>}
               <ProtectedRoute 
                 loggedIn={this.state.loggedIn}
 

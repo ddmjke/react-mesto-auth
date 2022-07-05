@@ -10,7 +10,7 @@ export default function Header(props) {
         props.loggedIn 
           ? <>
               <h2 className="header__email">{props.email}</h2>
-              <NavLink className="header__logout" to="/sign-in">Выйти</NavLink>
+              <NavLink className="header__logout" to="/sign-in" onClick={props.onLogout}>Выйти</NavLink>
             </>
           : <NavLink className="header__link" to={props.link}>{props.linkTitle}</NavLink>
       }
