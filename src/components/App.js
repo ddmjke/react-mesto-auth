@@ -9,7 +9,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
@@ -33,6 +33,7 @@ export default class App extends React.Component {
   }
   
   componentDidMount() {
+    this.checkToken();
     mestoApi.getUser()
       .then(user => {
         this.setState({currentUser: user})
@@ -45,15 +46,15 @@ export default class App extends React.Component {
       })
      .catch(err => console.log(`Failed to load initial cards : ${err}`));
   }
-
-  // checkToken() {
-  //   if (localStorage.getItem('jwt')) {
-  //     nomoAuth.validate(localStorage.getItem('jwt'))
-  //       .then(res => {
-  //         this.setState({loggedIn: true});
-  //       })
-  //   }
-  // }
+  
+  checkToken = () => {
+    return nomoAuth.validate({token: localStorage.getItem('token')})
+      .then(res => {
+        localStorage.setItem('email', res.email);
+        this.setState({loggedIn: true});
+        <Navigate to="/"/>
+      });
+  }
 
   handleRegister = (args) => {
     return nomoAuth.register(args)
