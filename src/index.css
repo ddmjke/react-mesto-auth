@@ -51,19 +51,21 @@
 @import url(./blocks/pop-up/__submit-button/_pending/pop-up__submit-button_pending.css);
 @import url(./blocks/pop-up/__network-error/pop-up__network-error.css);
 @import url(./blocks/pop-up/__network-error/_visible/pop-up__network-error_visible.css);
+@import url(./blocks/pop-up/__icon/pop-up__icon.css);
+@import url(./blocks/pop-up/__title/_centered/pop-up__title_centered.css);
 
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__copyright/footer__copyright.css);
 
 @import url(./blocks/entry/entry.css);
-@import url(./blocks/entry/entry__title.css);
-@import url(./blocks/entry/entry__network-error.css);
-@import url(./blocks/entry/entry__form.css);
-@import url(./blocks/entry/entry__input.css);
-@import url(./blocks/entry/entry__input-error.css);
-@import url(./blocks/entry/entry__input-error_visable.css);
-@import url(./blocks/entry/entry__field.css);
-@import url(./blocks/entry/entry__submit-button.css);
-@import url(./blocks/entry/entry__submit-button_pending.css);
-@import url(./blocks/entry/entry__submit-button_inactive.css);
-@import url(./blocks/entry/entry__link.css);
+@import url(./blocks/entry/__title/entry__title.css);
+@import url(./blocks/entry/__network-error/entry__network-error.css);
+@import url(./blocks/entry/__form/entry__form.css);
+@import url(./blocks/entry/__input/entry__input.css);
+@import url(./blocks/entry/__input-error/entry__input-error.css);
+@import url(./blocks/entry/__input-error/_visable/entry__input-error_visable.css);
+@import url(./blocks/entry/__field/entry__field.css);
+@import url(./blocks/entry/__submit-button/entry__submit-button.css);
+@import url(./blocks/entry/__submit-button/_inactive/entry__submit-button_inactive.css);
+@import url(./blocks/entry/__submit-button/_pending/entry__submit-button_pending.css);
+@import url(./blocks/entry/__link/entry__link.css);

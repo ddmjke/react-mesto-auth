@@ -14,8 +14,9 @@ import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
 import nomoAuth from '../utils/Auth';
+import InfoTooltip from './InfoTooltip';
 
-export default function App(props) {
+export default function App() {
   const navigate = useNavigate();
 
   const  [isEditProfilePopupOpen,setIsEditProfilePopupOpen]= React.useState(false);
@@ -23,6 +24,7 @@ export default function App(props) {
   const  [isEditAvatarPopupOpen,setIsEditAvatarPopupOpen]= React.useState(false);
   const  [isImagePopupOpen,setIsImagePopupOpen]= React.useState(false);
   const  [isDeletePopupOpen,setIsDeletePopupOpen]= React.useState(false);
+  const  [isTooltipOpen,setIsTooltipOpen]= React.useState(false);
   
   const [cardToDelete, setCardToDelete] = React.useState(null);
   const [selectedCard, setSelectedCard] = React.useState(null);
@@ -30,6 +32,7 @@ export default function App(props) {
   const [cards, setCards] = React.useState([]);
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [autofill, setAutofill] = React.useState({password: '', email: ''});
+  const [isRegistred, setIsRegistred] = React.useState(false);
   
   React.useEffect(
     () => {
@@ -52,8 +55,9 @@ export default function App(props) {
   const checkToken = () => {
       return nomoAuth.validate({token: localStorage.getItem('token')})
       .then(res => {
-        localStorage.setItem('email', res.email);
+        localStorage.setItem('email', res.data.email);
         setLoggedIn(true);
+        setAutofill({email: localStorage.getItem('email')});
         navigate('/');
       });
   }
@@ -141,6 +145,7 @@ export default function App(props) {
     setIsImagePopupOpen(false);
     setIsDeletePopupOpen(false);
     setSelectedCard(null);
+    setIsTooltipOpen(false);
   }
 
   const handleUserUpdate = (user) => {
@@ -253,8 +258,13 @@ export default function App(props) {
           onClose={closeAllPopups}
           onSubmit={handleDeleteSubmit}
           isChanged={true}
-        >
-        </PopupWithForm>
+        />
+
+        <InfoTooltip
+          isOpen={isTooltipOpen}
+          success={isRegistred}
+          onClose={closeAllPopups}
+        />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isImagePopupOpen}/>
       </CurrentUserContext.Provider>

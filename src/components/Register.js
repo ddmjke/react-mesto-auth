@@ -5,7 +5,7 @@ export default function Register(props) {
   const [pending, setPending] = React.useState(false);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [errors, setErrors] = React.useState({emailError: '', passwordError: ''});
+  const [errors, setErrors] = React.useState({emailError: ' ', passwordError: ' '});
   const navigate = useNavigate();
 
   function handleEmailInput(evt) {
