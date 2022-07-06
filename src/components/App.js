@@ -72,14 +72,15 @@ export default function App() {
       .then(res => {
         localStorage.setItem('email', res.data.email);
         setAutofill({password: args.password, email: args.email});
-        setIsTooltipOpen(true);
         setIsRegistred(true);
         return Promise.resolve(res);
       })
       .catch(err => {
-        setIsTooltipOpen(true);
         setIsRegistred(false);
         return Promise.reject(err);
+      })
+      .finally(() => {
+        setIsTooltipOpen(true);
       });
   }
 
@@ -204,82 +205,80 @@ export default function App() {
   }
 
   return (
-    <>
-      <CurrentUserContext.Provider value={currentUser || ''}>
+    <CurrentUserContext.Provider value={currentUser || ''}>
 
-        <Routes>
-          <Route path="/sign-in" element={
-            <>
-              <Header loggedIn={loggedIn} linkTitle="Регистрация" link="/sign-up" />
-              <Login onSubmit={handleLogin} password={autofill.password} email={autofill.email} />
-            </>
-          }/>
+      <Routes>
+        <Route path="/sign-in" element={
+          <>
+            <Header loggedIn={loggedIn} linkTitle="Регистрация" link="/sign-up" />
+            <Login onSubmit={handleLogin} password={autofill.password} email={autofill.email} />
+          </>
+        }/>
 
-          <Route path="/sign-up" element={
-            <>
-              <Header loggedIn={loggedIn} linkTitle="Войти" link="/sign-in"/>
-              <Register onSubmit={handleRegister}/>
-            </>
-          }/>
+        <Route path="/sign-up" element={
+          <>
+            <Header loggedIn={loggedIn} linkTitle="Войти" link="/sign-in"/>
+            <Register onSubmit={handleRegister}/>
+          </>
+        }/>
 
-          <Route path="/" element={
-            <>
-              {loggedIn && <Header loggedIn={loggedIn} email={localStorage.getItem('email')} onLogout={handleLogout}/>}
-              <ProtectedRoute 
-                loggedIn={loggedIn}
+        <Route path="/" element={
+          <>
+            {loggedIn && <Header loggedIn={loggedIn} email={localStorage.getItem('email')} onLogout={handleLogout}/>}
+            <ProtectedRoute 
+              loggedIn={loggedIn}
 
-                component={Main}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                cards={cards}
-                onCardLike={handleLikeClick}
-                onCardDelete={handleDeleteClick}
-              />
-            </>
-          }/>
-        </Routes>
-        
-        {loggedIn && <Footer />}
+              component={Main}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              cards={cards}
+              onCardLike={handleLikeClick}
+              onCardDelete={handleDeleteClick}
+            />
+          </>
+        }/>
+      </Routes>
+      
+      {loggedIn && <Footer />}
 
-        <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          onUserUpdate={handleUserUpdate}
-        />
+      <EditProfilePopup
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+        onUserUpdate={handleUserUpdate}
+      />
 
-        <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          onAvatarUpdate={handleAvatarUpdate}  
-        />
+      <EditAvatarPopup
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+        onAvatarUpdate={handleAvatarUpdate}  
+      />
 
-        <AddPlacePopup 
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          onSubmit={handleAddPlaceSubmit}
-        />
+      <AddPlacePopup 
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+        onSubmit={handleAddPlaceSubmit}
+      />
 
-        <PopupWithForm 
-          name="confirm"
-          title="Вы уверены?"
-          buttonText="Да"
-          formName="user-confirm"
-          isOpen={isDeletePopupOpen}
-          onClose={closeAllPopups}
-          onSubmit={handleDeleteSubmit}
-          isChanged={true}
-        />
+      <PopupWithForm 
+        name="confirm"
+        title="Вы уверены?"
+        buttonText="Да"
+        formName="user-confirm"
+        isOpen={isDeletePopupOpen}
+        onClose={closeAllPopups}
+        onSubmit={handleDeleteSubmit}
+        isChanged={true}
+      />
 
-        <InfoTooltip
-          isOpen={isTooltipOpen}
-          success={isRegistred}
-          onClose={closeAllPopups}
-        />
+      <InfoTooltip
+        isOpen={isTooltipOpen}
+        success={isRegistred}
+        onClose={closeAllPopups}
+      />
 
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isImagePopupOpen}/>
-      </CurrentUserContext.Provider>
-    </>
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isImagePopupOpen}/>
+    </CurrentUserContext.Provider>
   )
 }

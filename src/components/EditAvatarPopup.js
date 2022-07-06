@@ -8,16 +8,14 @@ export default function EditAvatarPopup(props) {
     linkError: ''
   });
 
-  const inputRef = React.useRef();
-
   React.useEffect(() => {
-    inputRef.current.value = '';
+    setAvatar('');
     setErrors({linkError: ''});
   },[props.isOpen])
   
-  function handleAvatarInput() {
-    const link = inputRef.current.value;
-    const error = inputRef.current.validationMessage;
+  function handleAvatarInput(evt) {
+    const link = evt.target.value;
+    const error = evt.target.validationMessage;
     setAvatar(link);
     setIsChanged(!(link === ''));
     setErrors({linkError: error});
@@ -40,7 +38,13 @@ export default function EditAvatarPopup(props) {
           isChanged={isChanged}
           >
             <label className="pop-up__field"> 
-              <input ref={inputRef} onChange={handleAvatarInput} className="pop-up__input pop-up__input_field_avatar-link" type="url" id="avatar" placeholder="Ссылка на аватар" required/>
+              <input 
+                value={avatar}
+                onChange={handleAvatarInput}
+                className="pop-up__input pop-up__input_field_avatar-link"
+                type="url" id="avatar" placeholder="Ссылка на аватар"
+                required
+              />
               <span className={`pop-up__input-error avatar-error ${(errors.linkError !== '') ? 'pop-up__input-error_visable' : ''}`}>
                 {errors.linkError}
               </span>          

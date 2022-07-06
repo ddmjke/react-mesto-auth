@@ -110,7 +110,7 @@ export default function EditProfilePopup(props) {
           <span className={`pop-up__input-error user-profession-error ${(errors.desctiptionError !== '')? 'pop-up__input-error_visable' : ''}`}>
             {errors.descriptionError}
           </span>
-        </label>
+        </label>    
     </PopupWithForm>
   )
 }
