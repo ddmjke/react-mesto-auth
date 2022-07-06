@@ -6,3 +6,9 @@
   font-size: 18px;
   line-height: 22px;
 }
+
+@media screen and (max-width: 768px) {
+  .header__link {
+    margin-right: 27px;
+  }
+}
