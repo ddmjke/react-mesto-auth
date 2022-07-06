@@ -1,72 +1,23 @@
 import PopupWithForm from './PopupWithForm';
 import React from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-
-
-//to be refactored to DRY by handleInputChange(inputName, evt) or smth
+import useFormAndValidation from '../hooks/useFormAndValidation';
 
 export default function EditProfilePopup(props) {
-  const user = React.useContext(CurrentUserContext);
-  const [name, setName] = React.useState(user[`user-name`] || '')
-  const [description, setDescription] = React.useState(user[`user-profession`] || '');
-  const [isChanged, setIsChanged] = React.useState({
-    nameChanged: false,
-    aboutChanged: false
-  });
-  const [errors, setErrors] = React.useState({
-    nameError: '',
-    descriptionError: ''
-  });
-  
+  const user = React.useContext(CurrentUserContext); 
+  const {values, handleChange, errors, isValid, setValues, resetForm} = useFormAndValidation()
 
   React.useEffect(() => {
-    if (user) {
-      setName(user[`user-name`]);
-      setDescription(user[`user-profession`]);
-      setIsChanged({
-        nameChanged: false,
-        aboutChanged: false
-      });
-      setErrors({
-        nameError: '',
-        descriptionError: ''
-      })
+      resetForm();
+      setValues({name: user['user-name'], profession: user[`user-profession`]});
     }
-  },[user, props.isOpen])
-
-  function handleNameInput(evt) {
-    const name = evt.target.value;
-    const error = evt.target.validationMessage;
-    setName(name);
-    setIsChanged({
-      nameChanged: !(name === user['user-name']),
-      aboutChanged: isChanged.aboutChanged,
-    });
-    setErrors({
-      nameError: error,
-      descriptionError: errors.descriptionError
-    });
-  }
-
-  function handleDescriptionInput(evt) {
-    const about = evt.target.value;
-    const error = evt.target.validationMessage;
-    setDescription(about);
-    setIsChanged({
-      nameChanged: isChanged.nameChanged,
-      aboutChanged: !(about === user[`user-profession`]),
-    });
-    setErrors({
-      nameError: errors.nameError,
-      descriptionError: error
-    });
-  }
+  ,[user, props.isOpen])
 
   function handleSubmit(evt) {
     evt.preventDefault();
     return props.onUserUpdate({
-      [`user-name`]: name,
-      [`user-profession`]: description,
+      [`user-name`]: values.name,
+      [`user-profession`]: values.profession,
     });
   }
 
@@ -79,36 +30,37 @@ export default function EditProfilePopup(props) {
       onClose={props.onClose}
       onSubmit={handleSubmit}
       buttonText="Сохранить"
-      isChanged={(isChanged.nameChanged || isChanged.aboutChanged) && (errors.descriptionError === '' && errors.nameError === '')}
+      isChanged={isValid}
     >
         <label className="pop-up__field">
           <input 
             className="pop-up__input pop-up__input_field_name"
-            name="user-name"
+            name="name"
             type="text"
             id="user-name"
             placeholder="Имя"
             required minLength="2" maxLength="40"
-            value={name}
-            onChange={handleNameInput}/>
+            value={values.name || ''}
+            onChange={handleChange}
+          />
           <span 
-            className={`pop-up__input-error user-name-error ${(errors.nameError !== '')? 'pop-up__input-error_visable' : ''}`}>
-            {errors.nameError}
+            className={`pop-up__input-error user-name-error ${(errors.name !== '')? 'pop-up__input-error_visable' : ''}`}>
+            {errors.name}
           </span>
         </label>
         <label className="pop-up__field">
           <input 
             className="pop-up__input pop-up__input_field_info"
-            name="user-profession"
+            name="profession"
             type="text"
             id="user-profession"
             placeholder="Род деятельности"
             required minLength="2" maxLength="200"
-            value={description}
-            onChange={handleDescriptionInput}
+            value={values.profession || ''}
+            onChange={handleChange}
           />
-          <span className={`pop-up__input-error user-profession-error ${(errors.desctiptionError !== '')? 'pop-up__input-error_visable' : ''}`}>
-            {errors.descriptionError}
+          <span className={`pop-up__input-error user-profession-error ${(errors.profession !== '')? 'pop-up__input-error_visable' : ''}`}>
+            {errors.profession}
           </span>
         </label>    
     </PopupWithForm>

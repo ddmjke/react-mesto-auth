@@ -5,7 +5,7 @@ import notOk from '../images/notOk.svg';
 
 export default function InfoTooltip(props) {
   React.useEffect(() => {
-    setTimeout(props.onClose, 3000);
+    if (props.isOpen) {setTimeout(props.onClose, 3000);}
   }, [props.isOpen])
 
   return (

@@ -1,61 +1,18 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
+import useFormAndValidation from "../hooks/useFormAndValidation";
 
 export default function AddPlacePopup(props) {
-  const [name, setName] = React.useState('')
-  const [link, setLink] = React.useState('');
-  const [isChanged, setIsChanged] = React.useState({
-    nameChanged: false,
-    linkChanged: false
-  });
-  const [errors, setErrors] = React.useState({
-    nameError: '',
-    linkError: ''
-  });
-
+  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation()
+ 
   React.useEffect(() => {
-      setName('');
-      setLink('');
-      setIsChanged({nameChanged: false, linkChanged: false});
-      setErrors({nameError: '', linkError: ''});
+      resetForm();
   },[props.isOpen])
-
-  function handleNameInput(evt) {
-    const name = evt.target.value;
-    const error = evt.target.validationMessage;
-
-    setName(name);
-    setIsChanged({
-      nameChanged: !(name === ''),
-      linkChanged: isChanged.linkChanged,
-    });
-    setErrors({
-      nameError: error,
-      linkError: errors.linkError
-    });
-  }
-
-  function handleLinkInput(evt) {
-    const link = evt.target.value;
-    const error = evt.target.validationMessage;
-
-    setLink(link);
-    setIsChanged({
-      nameChanged: isChanged.nameChanged,
-      linkChanged: !(link === ''),
-    });
-    setErrors({
-      nameError: errors.nameError,
-      linkError: error
-    });
-  }
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    return props.onSubmit({name: name, link: link});
+    return props.onSubmit({name: values.name, link: values.link});
   }
-
-
 
   return (
   <PopupWithForm 
@@ -65,7 +22,7 @@ export default function AddPlacePopup(props) {
     isOpen={props.isOpen}
     onClose={props.onClose}
     onSubmit={handleSubmit}
-    isChanged={(isChanged.linkChanged && isChanged.nameChanged) && (errors.linkError === '' && errors.nameError === '')}
+    isChanged={isValid}
     buttonText="Сохранить"
   >
     <label className="pop-up__field">
@@ -73,11 +30,12 @@ export default function AddPlacePopup(props) {
         className="pop-up__input pop-up__input_field_place-name"
         type="text" id="name" placeholder="Название"
         required minLength="2" maxLength="30"
-        onChange={handleNameInput}
-        value={name}
+        onChange={handleChange}
+        name="name"
+        value={values.name || ''}
       />
-      <span className={`pop-up__input-error name-error ${(errors.nameError !== '')? 'pop-up__input-error_visable' : ''}`}>
-        {errors.nameError}
+      <span className={`pop-up__input-error name-error ${(errors.name !== '')? 'pop-up__input-error_visable' : ''}`}>
+        {errors.name}
       </span>          
     </label>
     <label className="pop-up__field"> 
@@ -85,11 +43,12 @@ export default function AddPlacePopup(props) {
         className="pop-up__input pop-up__input_field_place-link"
         type="url" id="link" placeholder="Ссылка на картинку"
         required
-        onChange={handleLinkInput}
-        value={link}
+        onChange={handleChange}
+        name="link"
+        value={values.link || ''}
       />
-      <span className={`pop-up__input-error link-error ${(errors.linkError !== '')? 'pop-up__input-error_visable' : ''}`}>
-        {errors.linkError}
+      <span className={`pop-up__input-error link-error ${(errors.link !== '')? 'pop-up__input-error_visable' : ''}`}>
+        {errors.link}
       </span>          
     </label>
   </PopupWithForm>
