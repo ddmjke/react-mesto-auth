@@ -11,7 +11,7 @@ export default function Header(props) {
           ? 
           <>
             <input type="checkbox" className="header__humburger-input" id="burger"/>
-            <label className="header__humburger" for="burger">
+            <label className="header__humburger" htmlFor="burger">
               <h2 className="header__email">{props.email}</h2>
               <NavLink className="header__logout" to="/sign-in" onClick={props.onLogout}>Выйти</NavLink>
             </label>
