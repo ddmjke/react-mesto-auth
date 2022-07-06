@@ -1,39 +1,18 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import useFormAndValidation from '../hooks/useFormAndValidation';
 
 export default function Register(props) {
   const [pending, setPending] = React.useState(false);
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [errors, setErrors] = React.useState({emailError: ' ', passwordError: ' '});
+  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation()
   const navigate = useNavigate();
-
-  function handleEmailInput(evt) {
-    const value = evt.target.value;
-    const err = evt.target.validationMessage;
-    setErrors({
-      emailError: err,
-      passwordError: errors.passwordError,
-    })
-    setEmail(value);
-  }
-
-  function handlePasswordInput(evt) {
-    const value = evt.target.value;
-    const err = evt.target.validationMessage;
-    setErrors({
-      emailError: errors.emailError,
-      passwordError: err,
-    })
-    setPassword(value);
-  }
 
   function handleSubmit(evt) {
     evt.preventDefault();
     setPending(true);
     props.onSubmit({
-      email : email,
-      password : password
+      email : values.email,
+      password : values.password
     })
       .then(() => {
         setPending(false);
@@ -44,6 +23,7 @@ export default function Register(props) {
       })
       .finally(() => {
         setPending(false);
+        resetForm();
       });
   }
 
@@ -54,8 +34,9 @@ export default function Register(props) {
           <form className="entry__form" noValidate onSubmit={handleSubmit}>
             <label className="entry__field">
               <input  
-                onChange={handleEmailInput}
-                value={email}
+                onChange={handleChange}
+                name="email"
+                value={values.email || ''}
                 className="entry__input entry__input_field_avatar-link"
                 type="email"
                 id="email"
@@ -63,15 +44,16 @@ export default function Register(props) {
                 required
               />
               <span 
-                className={`entry__input-error ${(errors.emailError !== '') ? 'entry__input-error_visable' : ''}`}>
-                {errors.emailError}
+                className={`entry__input-error ${(errors.email !== '') ? 'entry__input-error_visable' : ''}`}>
+                {errors.email}
               </span>
             </label>
 
             <label className="entry__field">
               <input  
-                onChange={handlePasswordInput}
-                value={password}
+                onChange={handleChange}
+                name="password"
+                value={values.password || ''}
                 className="entry__input entry__input_field_avatar-link"
                 type="password"
                 id="password"
@@ -80,18 +62,18 @@ export default function Register(props) {
                 maxLength={40}
                 required
               />
-              <span className={`entry__input-error ${(errors.passwordError !== '') ? 'entry__input-error_visable' : ''}`}>
-                {errors.passwordError}
+              <span className={`entry__input-error ${(errors.password !== '') ? 'entry__input-error_visable' : ''}`}>
+                {errors.password}
               </span>
             </label>
 
             <button 
               className={`
                 entry__submit-button
-                ${((errors.emailError + errors.passwordError) !== '') && 'entry__submit-button_inactive'}
+                ${!isValid && 'entry__submit-button_inactive'}
                 ${pending && 'entry__submit-button_pending'}
               `}
-              disabled={(errors.emailError + errors.passwordError) !== ''}
+              disabled={!isValid}
               type="submit" >
               Зарегистрироваться
             </button>  
