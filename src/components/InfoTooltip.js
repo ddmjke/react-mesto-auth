@@ -2,8 +2,8 @@ import React from 'react';
 import Popup from './Popup';
 import ok from '../images/ok.svg';
 import notOk from '../images/notOk.svg';
+
 export default function InfoTooltip(props) {
-  
   React.useEffect(() => {
     setTimeout(props.onClose, 3000);
   }, [props.isOpen])

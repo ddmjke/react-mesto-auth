@@ -1,29 +1,19 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
+import useFormAndValidation from "../hooks/useFormAndValidation";
 
 export default function EditAvatarPopup(props) {
-  const [avatar, setAvatar] = React.useState('');
-  const [isChanged, setIsChanged] = React.useState(false);
-  const [errors, setErrors] = React.useState({
-    linkError: ''
-  });
+  
+  const {values, handleChange, errors, isValid, setValues, resetForm} = useFormAndValidation()
 
   React.useEffect(() => {
-    setAvatar('');
-    setErrors({linkError: ''});
+    resetForm();
+    setValues({avatar: ''});
   },[props.isOpen])
   
-  function handleAvatarInput(evt) {
-    const link = evt.target.value;
-    const error = evt.target.validationMessage;
-    setAvatar(link);
-    setIsChanged(!(link === ''));
-    setErrors({linkError: error});
-  }
-
   function handleSubmit(evt) {
     evt.preventDefault();
-    return props.onAvatarUpdate(avatar);
+    return props.onAvatarUpdate(values.avatar);
   }
 
   return (
@@ -35,18 +25,19 @@ export default function EditAvatarPopup(props) {
           isOpen={props.isOpen}
           onClose={props.onClose}
           onSubmit={handleSubmit}
-          isChanged={isChanged}
+          isChanged={isValid}
           >
             <label className="pop-up__field"> 
               <input 
-                value={avatar}
-                onChange={handleAvatarInput}
+                name='avatar'
+                value={values.avatar || ''}
+                onChange={handleChange}
                 className="pop-up__input pop-up__input_field_avatar-link"
                 type="url" id="avatar" placeholder="Ссылка на аватар"
                 required
               />
-              <span className={`pop-up__input-error avatar-error ${(errors.linkError !== '') ? 'pop-up__input-error_visable' : ''}`}>
-                {errors.linkError}
+              <span className={`pop-up__input-error avatar-error ${(errors.avatar !== '') ? 'pop-up__input-error_visable' : ''}`}>
+                {errors.avatar}
               </span>          
             </label>
     </PopupWithForm>
