@@ -37,6 +37,7 @@ export default function App() {
   React.useEffect(
     () => {
       checkToken();
+
       mestoApi.getUser()
         .then(user => {
           setCurrenUser(user);
@@ -53,14 +54,17 @@ export default function App() {
   );
   
   const checkToken = () => {
-      return nomoAuth.validate({token: localStorage.getItem('token')})
+    nomoAuth.validate({token: localStorage.getItem('token')})
       .then(res => {
         localStorage.setItem('email', res.data.email);
         setLoggedIn(true);
         setAutofill({email: localStorage.getItem('email')});
         navigate('/');
       })
-      .catch(err => {navigate('/sign-in')});
+      .catch(err => {
+        console.log(`first time eh? ${err}`);
+      });
+      
   }
 
   const handleRegister = (args) => {
