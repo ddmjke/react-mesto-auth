@@ -5,7 +5,7 @@ export default function Login(props) {
   const [pending, setPending] = React.useState(false);
   const [email, setEmail] = React.useState(props.email || '');
   const [password, setPassword] = React.useState(props.password || '');
-  const [errors, setErrors] = React.useState({emailError: ' ', passwordError: ' '});
+  const [errors, setErrors] = React.useState({emailError: '', passwordError: ''});
   const navigate = useNavigate();
 
   function handleEmailInput(evt) {
@@ -36,8 +36,13 @@ export default function Login(props) {
       email: email
     })
       .then(() => {
-        setPending(false);
         navigate('/');
+      })
+      .catch(err => {
+        console.log(`failed to log in: ${err}`)
+      })
+      .finally(() => {
+        setPending(false)
       });
   }
 

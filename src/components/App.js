@@ -59,7 +59,8 @@ export default function App() {
         setLoggedIn(true);
         setAutofill({email: localStorage.getItem('email')});
         navigate('/');
-      });
+      })
+      .catch(err => {navigate('/sign-in')});
   }
 
   const handleRegister = (args) => {
@@ -67,7 +68,14 @@ export default function App() {
       .then(res => {
         localStorage.setItem('email', res.data.email);
         setAutofill({password: args.password, email: args.email});
+        setIsTooltipOpen(true);
+        setIsRegistred(true);
         return Promise.resolve(res);
+      })
+      .catch(err => {
+        setIsTooltipOpen(true);
+        setIsRegistred(false);
+        return Promise.reject(err);
       });
   }
 

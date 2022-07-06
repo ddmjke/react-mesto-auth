@@ -38,6 +38,12 @@ export default function Register(props) {
       .then(() => {
         setPending(false);
         navigate('/sign-in');
+      })
+      .catch((err) => {
+        console.log(`failed to Register: ${err}`)
+      })
+      .finally(() => {
+        setPending(false);
       });
   }
 
