@@ -48,7 +48,7 @@ class Auth {
 }
 
 const nomoAuth = new Auth({
-  url: 'https://auth.nomoreparties.co',
+  url: 'https://localhost:3000/',
 });
 
 export default nomoAuth;

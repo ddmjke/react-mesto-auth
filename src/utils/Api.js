@@ -121,8 +121,7 @@ class Api {
 }
 
 const mestoApi = new Api({
-  coghortUrl: 'https://mesto.nomoreparties.co/v1/cohort-41',
-  //dear github followers please dont tell anyone this:
-  token: 'd4112968-6ba1-4a40-975c-b5c593c09b3a',
+  coghortUrl: 'https://localhost:3000/',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzAzY2UxYTI0OTM5NzFmMmZjZjQ5OTIiLCJpYXQiOjE2NjExOTM3ODUsImV4cCI6MTY2MTc5ODU4NX0.DCMjrlwu0mGx3AEmGJd_-jDJC58hp4u3DmfXj7AMB24',
 });
 export default mestoApi;
