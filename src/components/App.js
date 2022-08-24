@@ -34,6 +34,20 @@ export default function App() {
   const [autofill, setAutofill] = React.useState({password: '', email: ''});
   const [isRegistred, setIsRegistred] = React.useState(false);
   
+
+  const checkToken = () => {
+    nomoAuth.validate({token: localStorage.getItem('token')})
+      .then(res => {
+        localStorage.setItem('email', res.data.email);
+        setLoggedIn(true);
+        setAutofill({email: localStorage.getItem('email')});
+        navigate('/');
+      })
+      .catch(err => {
+        console.log(`first time eh? ${err}`);
+      });
+  }
+  
   React.useEffect(
     () => {
       checkToken();
@@ -53,19 +67,6 @@ export default function App() {
     []
   );
   
-  const checkToken = () => {
-    nomoAuth.validate({token: localStorage.getItem('token')})
-      .then(res => {
-        localStorage.setItem('email', res.data.email);
-        setLoggedIn(true);
-        setAutofill({email: localStorage.getItem('email')});
-        navigate('/');
-      })
-      .catch(err => {
-        console.log(`first time eh? ${err}`);
-      });
-  }
-
   const handleRegister = (args) => {
     return nomoAuth.register(args)
       .then(res => {
