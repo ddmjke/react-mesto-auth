@@ -9,7 +9,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
@@ -239,6 +239,8 @@ export default function App() {
             />
           </>
         }/>
+        {/* attempt at redirecting non-existing route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       
       {loggedIn && <Footer />}
