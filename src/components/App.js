@@ -17,7 +17,7 @@ import nomoAuth from '../utils/Auth';
 import InfoTooltip from './InfoTooltip';
 
 export default function App() {
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
   const  [isEditProfilePopupOpen,setIsEditProfilePopupOpen]= React.useState(false);
   const  [isAddPlacePopupOpen,setIsAddPlacePopupOpen]= React.useState(false);
@@ -41,13 +41,13 @@ export default function App() {
         localStorage.setItem('email', res.data.email);
         setLoggedIn(true);
         setAutofill({email: localStorage.getItem('email')});
-        navigate('/');
+        navigate(`/`);
       })
       .catch(err => {
         console.log(`first time eh? ${err}`);
       });
   }
-  
+
   React.useEffect(
     () => {
       checkToken();
