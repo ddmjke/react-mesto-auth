@@ -64,7 +64,6 @@ export default function App() {
       .catch(err => {
         console.log(`first time eh? ${err}`);
       });
-      
   }
 
   const handleRegister = (args) => {

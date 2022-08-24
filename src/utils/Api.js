@@ -1,8 +1,6 @@
 class Api {
-  constructor({coghortUrl, token}) {
+  constructor({ coghortUrl }) {
     this._root = coghortUrl;
-    this._token = token;
-
     this.getCards = this.getCards.bind(this);
     this.getUser = this.getUser.bind(this);
     this.getUser = this.getUser.bind(this);
@@ -21,7 +19,7 @@ class Api {
   getCards(){
     return fetch(`${this._root}/cards`, {
       headers: {
-        authorization: this._token
+        authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
     .then(this._checkRes);
@@ -30,7 +28,7 @@ class Api {
   getUser() {
     return fetch(`${this._root}/users/me`, {
       headers: {
-        authorization: this._token
+        authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
     .then(this._checkRes)
@@ -56,7 +54,7 @@ class Api {
     return fetch(`${this._root}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(arg),
@@ -68,7 +66,7 @@ class Api {
     if (!isLiked) {return fetch(`${this._root}/cards/likes/${cardId}`, {
         method: 'PUT',
         headers: {
-          authorization: this._token,
+          authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'
         },
       })
@@ -76,7 +74,7 @@ class Api {
     } else {return fetch(`${this._root}/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers: {
-          authorization: this._token,
+          authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'
         },
       })
@@ -88,7 +86,7 @@ class Api {
     return fetch(`${this._root}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(arg),
@@ -100,7 +98,7 @@ class Api {
     return fetch(`${this._root}/cards`, {
       method: 'POST',
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(card),
@@ -112,7 +110,7 @@ class Api {
     return fetch(`${this._root}/cards/${cardId}`, {
       method: 'DELETE',
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'
       },
     })
@@ -122,6 +120,5 @@ class Api {
 
 const mestoApi = new Api({
   coghortUrl: 'https://localhost:3000/',
-  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzAzY2UxYTI0OTM5NzFmMmZjZjQ5OTIiLCJpYXQiOjE2NjExOTM3ODUsImV4cCI6MTY2MTc5ODU4NX0.DCMjrlwu0mGx3AEmGJd_-jDJC58hp4u3DmfXj7AMB24',
 });
 export default mestoApi;
