@@ -15,7 +15,7 @@
   },
   "scripts": {
     "homepage": "http://api.moredomains.nomoredomains.sbs",
-    "deploy": "npm run build && scp -r ./build/* ../react-mesto-api-full/frontend", 
+    "deploy": "npm run build && scp -r ./build/* ddm@62.84.115.165:/home/ddm/react-mesto-api-full/frontend", 
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
