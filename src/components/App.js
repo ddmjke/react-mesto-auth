@@ -41,7 +41,6 @@ export default function App() {
         localStorage.setItem('email', res.data.email);
         setLoggedIn(true);
         setAutofill({email: localStorage.getItem('email')});
-        navigate(`/`);
       })
       .catch(err => {
         console.log(`first time eh? ${err}`);
@@ -63,6 +62,7 @@ export default function App() {
           setCards(cards);
         })
         .catch(err => console.log(`Failed to load initial cards : ${err}`));
+      navigate(`/`);
     },
     []
   );
