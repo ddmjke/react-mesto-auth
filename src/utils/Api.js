@@ -119,6 +119,6 @@ class Api {
 }
 
 const mestoApi = new Api({
-  coghortUrl: 'https://localhost:3000/',
+  coghortUrl: 'https://api.moredomains.nomoredomains.sbs',
 });
 export default mestoApi;

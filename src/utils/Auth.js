@@ -48,7 +48,7 @@ class Auth {
 }
 
 const nomoAuth = new Auth({
-  url: 'https://localhost:3000/',
+  url: 'https://api.moredomains.nomoredomains.sbs',
 });
 
 export default nomoAuth;
