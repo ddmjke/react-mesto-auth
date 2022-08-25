@@ -4,8 +4,8 @@ class Auth {
   }
 
   _checkRes(res) {
-    if (res.ok) return res.json()
-      else return Promise.reject(`Error ${res.status}`);
+    if (!res.ok) return Promise.reject(`Error ${res.status}`)
+      else return res.json();
   }
 
   register(args) {
@@ -32,18 +32,22 @@ class Auth {
       },
       body: body
     })
-      .then(this._checkRes);
+      .then(this._checkRes)
   }
 
   validate(args) {
-    return fetch(`${this._url}/users/me`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization" : `Bearer ${args.token}`
-      },
-    })
-      .then(this._checkRes);
+    if (!args.token) {
+      return Promise.reject('no token')
+    } else {
+      return fetch(`${this._url}/users/me`, {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization" : `Bearer ${args.token}`
+        },
+      })
+        .then(this._checkRes);
+    }
   }
 }
 

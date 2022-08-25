@@ -18,6 +18,8 @@ export default class Main extends React.Component {
   render() { 
     return (
     <main>
+      {
+      this.context &&
       <section className="profile">
         <button className="profile__img-button" type="button">
           <img className="profile__avatar" src={this.context[`user-pic`]} alt="Аватар" />
@@ -30,9 +32,10 @@ export default class Main extends React.Component {
         </div>
         <button className="profile__add-button" type="button" onClick={this.props.onAddPlace}></button>
       </section>
+      }
 
       <section className="photo-grid">
-      {
+      { 
         this.props.cards.map((card, i) => (
           <Card 
             card={card}

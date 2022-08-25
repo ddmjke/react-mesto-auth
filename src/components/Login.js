@@ -4,23 +4,24 @@ import useFormAndValidation from "../hooks/useFormAndValidation";
 
 export default function Login(props) {
   const [pending, setPending] = React.useState(false);
-  const {values, handleChange, errors, isValid, setValues, resetForm} = useFormAndValidation()
+  const {
+    values, handleChange, errors, isValid, setValues, resetForm
+  } = useFormAndValidation({ email: props.email, password: props.password });
   const navigate = useNavigate();
 
   function handleSubmit(evt) {
     evt.preventDefault();
     setPending(true);
+    
     props.onSubmit({
       password: values.password,
       email: values.email
     })
-      .then(() => {
-        navigate('/');
-      })
       .catch(err => {
         console.log(`failed to log in: ${err}`)
       })
       .finally(() => {
+        navigate('/');
         setPending(false);
         setValues({password: ''})
       });

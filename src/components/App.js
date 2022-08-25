@@ -9,7 +9,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate, BrowserRouter } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
@@ -38,7 +38,8 @@ export default function App() {
   const checkToken = () => {
     nomoAuth.validate({token: localStorage.getItem('token')})
       .then(res => {
-        localStorage.setItem('email', res.data.email);
+        if (!res) return Promise.reject('you have no token');
+        localStorage.setItem('email', res.email);
         setLoggedIn(true);
         setAutofill({email: localStorage.getItem('email')});
       })
@@ -52,32 +53,31 @@ export default function App() {
       checkToken();
 
       mestoApi.getUser()
-        .then(user => {
-          setCurrenUser(user);
+        .then(setCurrenUser)
+        .then(() => mestoApi.getCards())      
+        .then(setCards)
+        .catch(err => {
+          console.log(`Failed to load initial info: ${err}`);
         })
-        .catch(err => console.log(`Failed to load initial user : ${err}`));
-      
-      mestoApi.getCards()
-        .then (cards => {
-          setCards(cards);
-        })
-        .catch(err => console.log(`Failed to load initial cards : ${err}`));
-      navigate(`/`);
+        .finally(() => navigate('/'));
     },
     []
   );
   
   const handleRegister = (args) => {
+    handleLogout();
     return nomoAuth.register(args)
       .then(res => {
-        localStorage.setItem('email', res.data.email);
+        localStorage.setItem('email', res.email);
         setAutofill({password: args.password, email: args.email});
         setIsRegistred(true);
+        navigate('/sign-in');
         return Promise.resolve(res);
       })
       .catch(err => {
         setIsRegistred(false);
-        return Promise.reject(err);
+        console.log(`Failed to register : ${err}`);
+        Promise.reject();
       })
       .finally(() => {
         setIsTooltipOpen(true);
@@ -87,19 +87,25 @@ export default function App() {
   const handleLogin = (args) => {
     return nomoAuth.authorize(args)
       .then(res => {
+        if (!res) return Promise.reject('unauthorized')
         localStorage.setItem('email', args.email);
         localStorage.setItem('token', res.token);
-        setLoggedIn(true);
         setAutofill({
           email: args.email,
           password: args.password,
         });
-      });
+      })
+      .then(() => mestoApi.getUser())
+      .then((res) => {
+        setCurrenUser(res);
+        setLoggedIn(true);
+      })
     }
     
   const handleLogout = () => {
     localStorage.setItem('email', '');
     localStorage.setItem('token', '');
+    setCurrenUser(null);
     setLoggedIn(false);
   }
 
@@ -121,7 +127,7 @@ export default function App() {
   }
 
   const handleLikeClick = (card) => {
-    const isLiked = card.likes.some(like => like._id === currentUser.id);
+    const isLiked = card.likes.some(like => like === currentUser.id);
     mestoApi.toggleLike(card._id, isLiked)
       .then (res =>{
         const newCards = cards.map(card => {return card._id === res._id ? res: card});
@@ -239,7 +245,7 @@ export default function App() {
             />
           </>
         }/>
-        {/* attempt at redirecting non-existing route */}
+        
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       

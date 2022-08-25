@@ -16,7 +16,8 @@ class Api {
       else return Promise.reject(`Error ${res.status}`);
   }
 
-  getCards(){
+  getCards() {
+    if (!localStorage.getItem('token')) return Promise.reject('no token');
     return fetch(`${this._root}/cards`, {
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`
@@ -26,6 +27,7 @@ class Api {
   }
 
   getUser() {
+    if (!localStorage.getItem('token')) return Promise.reject('no token');
     return fetch(`${this._root}/users/me`, {
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`
@@ -39,7 +41,7 @@ class Api {
       info['user-pic'] = res.avatar;
       this._id = res._id;
       info.id = res._id;
-      return info;
+      return Promise.resolve(info);
     })
   }
 
@@ -63,7 +65,7 @@ class Api {
   }
 
   toggleLike(cardId, isLiked) {
-    if (!isLiked) {return fetch(`${this._root}/cards/likes/${cardId}`, {
+    if (!isLiked) {return fetch(`${this._root}/cards/${cardId}/likes`, {
         method: 'PUT',
         headers: {
           authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -71,7 +73,7 @@ class Api {
         },
       })
       .then(this._checkRes);
-    } else {return fetch(`${this._root}/cards/likes/${cardId}`, {
+    } else {return fetch(`${this._root}/cards/${cardId}/likes`, {
         method: 'DELETE',
         headers: {
           authorization: `Bearer ${localStorage.getItem('token')}`,

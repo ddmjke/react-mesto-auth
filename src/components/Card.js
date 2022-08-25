@@ -16,8 +16,8 @@ export default function Card(props) {
     props.onCardLike(props.card);
   }
   
-  const isOwn = user.id === props.card.owner._id;
-  const isLiked = props.card.likes.some(like => like._id === user.id);
+  const isOwn = user.id === props.card.owner;
+  const isLiked = props.card.likes.some(like => like === user.id);
 
   return (
     <div className="photo-grid__card">
