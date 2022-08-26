@@ -100,6 +100,12 @@ export default function App() {
         setCurrenUser(res);
         setLoggedIn(true);
       })
+      .then(() => mestoApi.getCards())      
+      .then(setCards)
+      .catch(err => {
+        console.log(`Failed to load initial info: ${err}`);
+      })
+      .finally(() => navigate('/'));
     }
     
   const handleLogout = () => {
